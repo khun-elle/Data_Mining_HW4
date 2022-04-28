@@ -340,3 +340,27 @@ tableclust <-tableclust[,-1]
 kable(tableclust, caption ="**Table 2.5: Result of Hierarachical Clustering with K-means**", format_caption = c("italic", "underline")) %>%
     kable_styling(bootstrap_options = "striped", full_width = F)
 ###
+
+#groceries
+groceries <- read_lines("https://raw.githubusercontent.com/jgscott/ECO395M/master/data/groceries.txt")
+
+#clean data
+clean_groceries <- list()
+for (i in 1:length(groceries)) {
+    clean_groceries[i] <- str_split(groceries[i], ",") %>% unique()
+}
+#cast to transactions class
+clean_groceries_trans <- as(clean_groceries, "transactions")
+summary(clean_groceries_trans)
+
+#now run the 'apriori' algorithm
+groceries_rules <- apriori(clean_groceries_trans,
+                 parameter = list(support = 0.01, 
+                                  confidence = 0.1,
+                                  maxlen = 2))
+arules::inspect(groceries_rules)
+arules::inspect(subset(groceries_rules, lift > 2))
+
+# export a graph
+sub1 = subset(groceries_rules, subset = lift > 2)
+saveAsGraph(sub1, file = "groceries_rules.graphml")
