@@ -1,4 +1,4 @@
-load.libraries <- c('tidyverse', 'mosaic', 'MASS', 'FNN', 'gamlr', 'glmnet', 'randomForest', 'kableExtra', 'data.table', 'sjmisc', 'sjPlot', 'sjlabelled', 'LICORS', 'foreach', 'cluster', 'factoextra', 'knitr', 'GGally', 'scales', 'lubridate', 'gridExtra', 'grid', 'lattice')
+load.libraries <- c('tidyverse', 'mosaic', 'MASS', 'FNN', 'gamlr', 'glmnet', 'randomForest', 'kableExtra', 'data.table', 'sjmisc', 'sjPlot', 'sjlabelled', 'LICORS', 'foreach', 'cluster', 'factoextra', 'knitr', 'GGally', 'scales', 'lubridate', 'gridExtra', 'grid', 'lattice', 'arules', 'arulesViz', 'igraph')
 install.lib <- load.libraries[!load.libraries %in% installed.packages()]
 for(libs in install.lib) install.packages(libs, dependences = TRUE)
 sapply(load.libraries, require, character = TRUE)
@@ -349,6 +349,7 @@ clean_groceries <- list()
 for (i in 1:length(groceries)) {
     clean_groceries[i] <- str_split(groceries[i], ",") %>% unique()
 }
+
 #cast to transactions class
 clean_groceries_trans <- as(clean_groceries, "transactions")
 summary(clean_groceries_trans)
@@ -361,6 +362,13 @@ groceries_rules <- apriori(clean_groceries_trans,
 arules::inspect(groceries_rules)
 arules::inspect(subset(groceries_rules, lift > 2))
 
+plot(groceries_rules)
+plot(groceries_rules, measure = c("support", "lift"), shading = "confidence")
+plot(groceries_rules, method='two-key plot')
+
+arules::inspect(subset(musicrules, support > 0.035))
+arules::inspect(subset(musicrules, confidence > 0.6))
+
 # export a graph
-sub1 = subset(groceries_rules, subset = lift > 2)
+sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
 saveAsGraph(sub1, file = "groceries_rules.graphml")
