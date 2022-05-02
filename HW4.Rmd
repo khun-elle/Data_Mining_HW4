@@ -487,3 +487,130 @@ The largest cluster of the audience of NurientH20 was those who focused much on 
 
 The second type of consumers might be younger people. Most of them probably were college students with those classical student preferences like online gaming, sporting, watching movies and TV shows, dating and so forth. This type of consumers might have minor purchase power, but they could be potential future consumers of the brand, with more permanent brand loyalty. Hence, it was also important for NutrientH20 to attract those type of consumers as many as possible. 
 
+# Problem 3: Groceries
+
+```{r setup 2.9, results='hide', warning=FALSE, echo=FALSE}
+groceries <- read_lines("https://raw.githubusercontent.com/jgscott/ECO395M/master/data/groceries.txt")
+
+#clean data
+clean_groceries <- list()
+for (i in 1:length(groceries)) {
+    clean_groceries[i] <- str_split(groceries[i], ",") %>% unique()
+}
+
+#cast to transactions class
+clean_groceries_trans <- as(clean_groceries, "transactions")
+summary(clean_groceries_trans)
+```
+
+```{r setup 2.10, warning=FALSE, echo=FALSE}
+# number of items in each observation
+size(head(clean_groceries_trans)) 
+
+#average number of items purchased
+mean(
+    matrix(data= c(lengths(clean_groceries)),
+       ncol = 1,
+       byrow = TRUE)
+)
+```
+
+Because the average number of items purchased is approximately 4, it seems appropriate to set `maxlen` equals to 4. I also set `support` which is marginal probability to be 1% and `confidence` equals to 50%. It is worth reminding that the higher value of `confidence` parameter, the stronger the rules. Also, low support does not preclude high confidence or high lift. Once you know that something is purchased (although rarely purchased), you know with high probability that another item is likely to be bought too.
+
+```{r setup 2.11, warning=FALSE, echo=FALSE}
+#now run the 'apriori' algorithm
+#maxlen defines the maximum number of items in each itemset of frequent items
+groceries_rules <- apriori(clean_groceries_trans,
+                 parameter = list(support = 0.01, 
+                                  confidence = 0.5,
+                                  maxlen = 4))
+# Look at the output... so many rules!                 
+arules::inspect(groceries_rules)
+
+## Choose a subset
+arules::inspect(subset(groceries_rules, lift > 2))
+```
+
+## How to get the product recommenddation rules?
+### High-confidence rules
+
+Event with high confidence means the probability of RHS(consequent) given LHS(antecedent) is high. The rule with confidence of 1 imply that when LHS item was purchased, the RHS item was also purchased 100% of the time.
+
+```{r setup 2.12, warning=FALSE, echo=FALSE}
+#'high-confidence' rules.
+high_conf <- sort(groceries_rules, by = "confidence", decreasing = TRUE)
+
+# show the support, lift and confidence for all rules
+arules::inspect(head(high_conf))
+```
+
+### High-lift rules
+
+Lift is calculated by taking confidence divided by support. Generally, association rules with high lift are most useful because they tell you something you don't already know. Rules with high lift mean that items in LHS and RHS are more likely to be bought together compared to the purchases when they are assumed to be unrelated.
+
+```{r setup 2.13, warning=FALSE, echo=FALSE}
+# 'high-lift' rules.
+high_lift <- sort(groceries_rules, by = "lift", decreasing=TRUE) 
+
+# show the support, lift and confidence for all rules
+arules::inspect(head(high_lift)) 
+```
+
+## Most frequenly purchased items
+
+We see that whole milk is the most commonly purchased item followed by vegetables and buns. This makes sense because they are all basic foods.
+
+```{r setup 2.14, warning=FALSE, echo=FALSE}
+#most frequent items
+frequent_items <- eclat(clean_groceries_trans, parameter = list(supp = 0.07, maxlen = 15)) # calculates support for frequent items
+
+arules::inspect(frequent_items)
+
+itemFrequencyPlot(clean_groceries_trans, topN = 10, type = "absolute", main = "Item Frequency")
+```
+
+## Customers who bought ‘Whole Milk’ also bought
+Let's find out what customers had purchased before buying ‘Whole Milk’. This will help us understand the patterns that led to the purchase of ‘whole milk’.
+
+```{r setup 2.15, warning=FALSE, echo=FALSE}
+#Customers who bought ‘Whole Milk’ also bought
+milk <- apriori(data = clean_groceries_trans, parameter = list (supp=0.001, conf = 0.15, minlen = 2), appearance = list(default = "rhs",lhs = "whole milk"), control = list (verbose=F))
+
+# 'high-confidence' rules.
+milk_conf <- sort(milk, by = "confidence", decreasing=TRUE) 
+arules::inspect(head(milk_conf))
+```
+
+The following table shows all the association rules with lift > 3.
+
+```{r setup 2.16, warning=FALSE, echo=FALSE}
+# rules with lift > 3
+arules::inspect(subset(groceries_rules, lift > 3)) %>% as_tibble()
+```
+
+In the following graph, we observe negative relationship between support and lift. When you have high support, it means that the items is commonly purchased. It's like almost everyone buys it. So it is not very helpful or telling you much information.
+
+```{r setup 2.17, warning=FALSE, echo=FALSE}
+# plot all the rules in (support, confidence) space
+plot(groceries_rules)
+
+# can swap the axes and color scales
+plot(groceries_rules, measure = c("support", "lift"), shading = "confidence")
+```
+
+In the graph below, we see that the highest confidence tends to be order 3 (order 3 has more items). The more items you condition on, the more sure.
+
+```{r setup 2.18, warning=FALSE, echo=FALSE}
+# "two key" plot: coloring is by size (order) of item set
+plot(groceries_rules, method='two-key plot')
+```
+
+```{r setup 2.19, warning=FALSE, echo=FALSE}
+# can now look at subsets driven by the plot
+arules::inspect(subset(musicrules, support > 0.04))
+arules::inspect(subset(musicrules, confidence > 0.4))
+
+# export a graph
+sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
+saveAsGraph(sub1, file = "groceries_rules.graphml")
+```

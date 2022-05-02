@@ -354,20 +354,74 @@ for (i in 1:length(groceries)) {
 clean_groceries_trans <- as(clean_groceries, "transactions")
 summary(clean_groceries_trans)
 
+# number of items in each observation
+size(head(clean_groceries_trans)) 
+
+#average number of items purchased
+mean(
+    matrix(data= c(lengths(clean_groceries)),
+       ncol = 1,
+       byrow = TRUE)
+)
+
 #now run the 'apriori' algorithm
+#maxlen defines the maximum number of items in each itemset of frequent items
 groceries_rules <- apriori(clean_groceries_trans,
                  parameter = list(support = 0.01, 
-                                  confidence = 0.1,
-                                  maxlen = 2))
+                                  confidence = 0.5,
+                                  maxlen = 4))
+# Look at the output... so many rules!                 
 arules::inspect(groceries_rules)
+
+## Choose a subset
 arules::inspect(subset(groceries_rules, lift > 2))
 
+#'high-confidence' rules.
+high_conf <- sort(groceries_rules, by = "confidence", decreasing = TRUE)
+
+# show the support, lift and confidence for all rules
+arules::inspect(head(high_conf))
+
+# 'high-lift' rules.
+high_lift <- sort(groceries_rules, by = "lift", decreasing=TRUE) 
+
+# show the support, lift and confidence for all rules
+arules::inspect(head(high_lift)) 
+
+###############################
+#most frequent items
+frequent_items <- eclat(clean_groceries_trans, parameter = list(supp = 0.07, maxlen = 15)) # calculates support for frequent items
+
+arules::inspect(frequent_items)
+
+itemFrequencyPlot(clean_groceries_trans, topN = 10, type = "absolute", main = "Item Frequency")
+
+# plot all the rules in (support, confidence) space
 plot(groceries_rules)
+
+#Customers who bought ‘Whole Milk’ also bought
+milk <- apriori(data = clean_groceries_trans, parameter = list (supp=0.001, conf = 0.15, minlen = 2), appearance = list(default = "rhs",lhs = "whole milk"), control = list (verbose=F))
+
+# 'high-confidence' rules.
+milk_conf <- sort(milk, by = "confidence", decreasing=TRUE) 
+arules::inspect(head(milk_conf))
+###############################
+
+# rules with lift > 3
+arules::inspect(subset(groceries_rules, lift > 3)) %>% as_tibble()
+
+# plot all the rules in (support, confidence) space
+plot(groceries_rules)
+
+# can swap the axes and color scales
 plot(groceries_rules, measure = c("support", "lift"), shading = "confidence")
+
+# "two key" plot: coloring is by size (order) of item set
 plot(groceries_rules, method='two-key plot')
 
-arules::inspect(subset(musicrules, support > 0.035))
-arules::inspect(subset(musicrules, confidence > 0.6))
+# can now look at subsets driven by the plot
+arules::inspect(subset(musicrules, support > 0.04))
+arules::inspect(subset(musicrules, confidence > 0.4))
 
 # export a graph
 sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
