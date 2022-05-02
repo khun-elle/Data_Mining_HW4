@@ -608,7 +608,10 @@ arules::inspect(subset(groceries_rules, confidence > 0.4))
 # export a graph
 sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
 saveAsGraph(sub1, file = "groceries_rules.graphml")
-png::readPNG(source = "/Users/jirapat/Desktop/R/Data_Mining_HW4/hw4graph.png")
+#png::readPNG(source = "hw4graph.png")
+
+img <- readPNG('hw4graph.png')
+grid::grid.raster(img)
 ```
 
 # Graph-Based Visualization: Top 30 rules by lift
