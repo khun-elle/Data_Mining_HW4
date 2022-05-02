@@ -610,7 +610,7 @@ sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
 saveAsGraph(sub1, file = "groceries_rules.graphml")
 #png::readPNG(source = "hw4graph.png")
 
-img <- readPNG('hw4graph.png')
+img <- readPNG('hw4.png')
 grid::grid.raster(img)
 ```
 
