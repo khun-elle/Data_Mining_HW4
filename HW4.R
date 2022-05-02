@@ -1,4 +1,4 @@
-load.libraries <- c('tidyverse', 'mosaic', 'MASS', 'FNN', 'gamlr', 'glmnet', 'randomForest', 'kableExtra', 'data.table', 'sjmisc', 'sjPlot', 'sjlabelled', 'LICORS', 'foreach', 'cluster', 'factoextra', 'knitr', 'GGally', 'scales', 'lubridate', 'gridExtra', 'grid', 'lattice', 'arules', 'arulesViz', 'igraph')
+load.libraries <- c('tidyverse', 'mosaic', 'MASS', 'FNN', 'gamlr', 'glmnet', 'randomForest', 'kableExtra', 'data.table', 'sjmisc', 'sjPlot', 'sjlabelled', 'LICORS', 'foreach', 'cluster', 'factoextra', 'knitr', 'GGally', 'scales', 'lubridate', 'gridExtra', 'grid', 'lattice', 'arules', 'arulesViz', 'igraph', 'png')
 install.lib <- load.libraries[!load.libraries %in% installed.packages()]
 for(libs in install.lib) install.packages(libs, dependences = TRUE)
 sapply(load.libraries, require, character = TRUE)
@@ -426,3 +426,5 @@ arules::inspect(subset(groceries_rules, confidence > 0.4))
 # export a graph
 sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
 saveAsGraph(sub1, file = "groceries_rules.graphml")
+
+png::readPNG(source = "/Users/jirapat/Desktop/R/Data_Mining_HW4/hw4graph.png")
