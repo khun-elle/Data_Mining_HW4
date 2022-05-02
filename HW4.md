@@ -1700,7 +1700,7 @@ relatively much smaller sums of frequencies than those of the first
 three categories. So, including more categories would be likely to put
 more infrequent or accident tweets into the description of distinct
 preferences. Moreover, some clusters may be not so distinguishable from
-other clusters. For example, Cluster 3 and 4 are more likely to consist
+other clusters. For example, Cluster 4 and 5 are more likely to consist
 of the same group of people. The borders between those clusters are not
 so clear. Therefore, in this part, for each of 10 clusters, we tried to
 find out the unique category or the combination of several unique
@@ -1999,7 +1999,7 @@ item is likely to be bought too.
     ## [13] 0.5230126  0.02430097 2.046888 125  
     ## [14] 0.5128806  0.04341637 2.007235 219
 
-## How to get the product recommenddation rules?
+## How to get the product recommendation rules?
 
 ### High-confidence rules
 
@@ -2064,7 +2064,7 @@ vegetables and buns. This makes sense because they are all basic foods.
     ## Absolute minimum support count: 688 
     ## 
     ## create itemset ... 
-    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.01s].
+    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.00s].
     ## sorting and recoding items ... [18 item(s)] done [0.00s].
     ## creating sparse bit matrix ... [18 row(s), 9835 column(s)] done [0.00s].
     ## writing  ... [19 set(s)] done [0.00s].
@@ -2098,21 +2098,6 @@ vegetables and buns. This makes sense because they are all basic foods.
 Let’s find out what customers had purchased before buying ‘Whole Milk’.
 This will help us understand the patterns that led to the purchase of
 ‘whole milk’.
-
-    ##     lhs             rhs                support    confidence coverage lift     
-    ## [1] {whole milk} => {other vegetables} 0.07483477 0.2928770  0.255516 1.5136341
-    ## [2] {whole milk} => {rolls/buns}       0.05663447 0.2216474  0.255516 1.2050318
-    ## [3] {whole milk} => {yogurt}           0.05602440 0.2192598  0.255516 1.5717351
-    ## [4] {whole milk} => {root vegetables}  0.04890696 0.1914047  0.255516 1.7560310
-    ## [5] {whole milk} => {tropical fruit}   0.04229792 0.1655392  0.255516 1.5775950
-    ## [6] {whole milk} => {soda}             0.04006101 0.1567847  0.255516 0.8991124
-    ##     count
-    ## [1] 736  
-    ## [2] 557  
-    ## [3] 551  
-    ## [4] 481  
-    ## [5] 416  
-    ## [6] 394
 
 In the following graph, we observe negative relationship between support
 and lift. When you have high support, it means that the items is

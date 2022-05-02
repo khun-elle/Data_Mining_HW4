@@ -420,8 +420,8 @@ plot(groceries_rules, measure = c("support", "lift"), shading = "confidence")
 plot(groceries_rules, method='two-key plot')
 
 # can now look at subsets driven by the plot
-arules::inspect(subset(musicrules, support > 0.04))
-arules::inspect(subset(musicrules, confidence > 0.4))
+arules::inspect(subset(groceries_rules, support > 0.04))
+arules::inspect(subset(groceries_rules, confidence > 0.4))
 
 # export a graph
 sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)

@@ -409,7 +409,7 @@ kable(table_pca,  caption ="**Table 2.4: An Improved Result of Hierarchical Clus
 ```
 
 ## Can We Have More Accurate, Unique or Complete Labels?
-The first problem of the result in Table 2.3 also exists in Table 2.2 and Table 2.4, though in a much less evident way: 27 categories out of 34 categories are used to differentiate consumers into 10 clusters. Probably it is because the rest 7 categories are not discernable or important enough based on the data, but it could be the possibility that our method was not refined enough. Of course, we could pick out more categories, say, first six or seven categories with high sums of frequencies, from each cluster, to include categories as many as possible. However, usually the categories below the third one only have relatively much smaller sums of frequencies than those of the first three categories. So, including more categories would be likely to put more infrequent or accident tweets into the description of distinct preferences. Moreover, some clusters may be not so distinguishable from other clusters. For example, Cluster 3 and 4 are more likely to consist of the same group of people. The borders between those clusters are not so clear. Therefore, in this part, for each of 10 clusters, we tried to find out the unique category or the combination of several unique categories dominating all other categories by the sum of frequencies. Meanwhile, all those unique category or combinations of unique categories made up a partition of 34 categories. By doing so, we were attaching labels to each cluster to make them more distinguishable.
+The first problem of the result in Table 2.3 also exists in Table 2.2 and Table 2.4, though in a much less evident way: 27 categories out of 34 categories are used to differentiate consumers into 10 clusters. Probably it is because the rest 7 categories are not discernable or important enough based on the data, but it could be the possibility that our method was not refined enough. Of course, we could pick out more categories, say, first six or seven categories with high sums of frequencies, from each cluster, to include categories as many as possible. However, usually the categories below the third one only have relatively much smaller sums of frequencies than those of the first three categories. So, including more categories would be likely to put more infrequent or accident tweets into the description of distinct preferences. Moreover, some clusters may be not so distinguishable from other clusters. For example, Cluster 4 and 5 are more likely to consist of the same group of people. The borders between those clusters are not so clear. Therefore, in this part, for each of 10 clusters, we tried to find out the unique category or the combination of several unique categories dominating all other categories by the sum of frequencies. Meanwhile, all those unique category or combinations of unique categories made up a partition of 34 categories. By doing so, we were attaching labels to each cluster to make them more distinguishable.
 
 The approach we applied was Hierarchical Clustering with K-means. The Hierarchical Clustering was to find out a hierarchical structure of categories based on the proximity matrix of correlations between each pair of categories. Figure 2.3 shows the dendrogram. 
 
@@ -531,7 +531,7 @@ arules::inspect(groceries_rules)
 arules::inspect(subset(groceries_rules, lift > 2))
 ```
 
-## How to get the product recommenddation rules?
+## How to get the product recommendation rules?
 ### High-confidence rules
 
 Event with high confidence means the probability of RHS(consequent) given LHS(antecedent) is high. The rule with confidence of 1 imply that when LHS item was purchased, the RHS item was also purchased 100% of the time.
@@ -572,7 +572,7 @@ itemFrequencyPlot(clean_groceries_trans, topN = 10, type = "absolute", main = "I
 ## Customers who bought ‘Whole Milk’ also bought
 Let's find out what customers had purchased before buying ‘Whole Milk’. This will help us understand the patterns that led to the purchase of ‘whole milk’.
 
-```{r setup 2.15, warning=FALSE, echo=FALSE}
+```{r setup 2.15, results='hide', warning=FALSE, echo=FALSE}
 #Customers who bought ‘Whole Milk’ also bought
 milk <- apriori(data = clean_groceries_trans, parameter = list (supp=0.001, conf = 0.15, minlen = 2), appearance = list(default = "rhs",lhs = "whole milk"), control = list (verbose=F))
 
