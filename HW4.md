@@ -2051,53 +2051,28 @@ purchases when they are assumed to be unrelated.
 We see that whole milk is the most commonly purchased item followed by
 vegetables and buns. This makes sense because they are all basic foods.
 
-    ## Eclat
-    ## 
-    ## parameter specification:
-    ##  tidLists support minlen maxlen            target  ext
-    ##     FALSE    0.07      1     15 frequent itemsets TRUE
-    ## 
-    ## algorithmic control:
-    ##  sparse sort verbose
-    ##       7   -2    TRUE
-    ## 
-    ## Absolute minimum support count: 688 
-    ## 
-    ## create itemset ... 
-    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.00s].
-    ## sorting and recoding items ... [18 item(s)] done [0.00s].
-    ## creating sparse bit matrix ... [18 row(s), 9835 column(s)] done [0.00s].
-    ## writing  ... [19 set(s)] done [0.00s].
-    ## Creating S4 object  ... done [0.00s].
-
-    ##      items                          support    count
-    ## [1]  {other vegetables, whole milk} 0.07483477  736 
-    ## [2]  {whole milk}                   0.25551601 2513 
-    ## [3]  {other vegetables}             0.19349263 1903 
-    ## [4]  {rolls/buns}                   0.18393493 1809 
-    ## [5]  {yogurt}                       0.13950178 1372 
-    ## [6]  {soda}                         0.17437722 1715 
-    ## [7]  {root vegetables}              0.10899847 1072 
-    ## [8]  {tropical fruit}               0.10493137 1032 
-    ## [9]  {bottled water}                0.11052364 1087 
-    ## [10] {sausage}                      0.09395018  924 
-    ## [11] {shopping bags}                0.09852567  969 
-    ## [12] {citrus fruit}                 0.08276563  814 
-    ## [13] {pastry}                       0.08896797  875 
-    ## [14] {pip fruit}                    0.07564820  744 
-    ## [15] {whipped/sour cream}           0.07168277  705 
-    ## [16] {fruit/vegetable juice}        0.07229283  711 
-    ## [17] {newspapers}                   0.07981698  785 
-    ## [18] {bottled beer}                 0.08052872  792 
-    ## [19] {canned beer}                  0.07768175  764
-
-![](HW4_files/figure-markdown_github/setup%202.14-1.png)
+![](HW4_files/figure-markdown_github/setup%202.15-1.png)
 
 ## Customers who bought ‘Whole Milk’ also bought
 
 Let’s find out what customers had purchased before buying ‘Whole Milk’.
 This will help us understand the patterns that led to the purchase of
 ‘whole milk’.
+
+    ##     lhs             rhs                support    confidence coverage lift     
+    ## [1] {whole milk} => {other vegetables} 0.07483477 0.2928770  0.255516 1.5136341
+    ## [2] {whole milk} => {rolls/buns}       0.05663447 0.2216474  0.255516 1.2050318
+    ## [3] {whole milk} => {yogurt}           0.05602440 0.2192598  0.255516 1.5717351
+    ## [4] {whole milk} => {root vegetables}  0.04890696 0.1914047  0.255516 1.7560310
+    ## [5] {whole milk} => {tropical fruit}   0.04229792 0.1655392  0.255516 1.5775950
+    ## [6] {whole milk} => {soda}             0.04006101 0.1567847  0.255516 0.8991124
+    ##     count
+    ## [1] 736  
+    ## [2] 557  
+    ## [3] 551  
+    ## [4] 481  
+    ## [5] 416  
+    ## [6] 394
 
 In the following graph, we observe negative relationship between support
 and lift. When you have high support, it means that the items is

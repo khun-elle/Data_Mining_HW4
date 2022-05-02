@@ -560,19 +560,21 @@ arules::inspect(head(high_lift))
 
 We see that whole milk is the most commonly purchased item followed by vegetables and buns. This makes sense because they are all basic foods.
 
-```{r setup 2.14, warning=FALSE, echo=FALSE}
+```{r setup 2.14, results='hide', warning=FALSE, echo=FALSE}
 #most frequent items
 frequent_items <- eclat(clean_groceries_trans, parameter = list(supp = 0.07, maxlen = 15)) # calculates support for frequent items
 
 arules::inspect(frequent_items)
+```
 
+```{r setup 2.15, warning=FALSE, echo=FALSE}
 itemFrequencyPlot(clean_groceries_trans, topN = 10, type = "absolute", main = "Item Frequency")
 ```
 
 ## Customers who bought ‘Whole Milk’ also bought
 Let's find out what customers had purchased before buying ‘Whole Milk’. This will help us understand the patterns that led to the purchase of ‘whole milk’.
 
-```{r setup 2.15, results='hide', warning=FALSE, echo=FALSE}
+```{r setup 2.16, warning=FALSE, echo=FALSE}
 #Customers who bought ‘Whole Milk’ also bought
 milk <- apriori(data = clean_groceries_trans, parameter = list (supp=0.001, conf = 0.15, minlen = 2), appearance = list(default = "rhs",lhs = "whole milk"), control = list (verbose=F))
 
