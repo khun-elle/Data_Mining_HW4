@@ -1897,3 +1897,269 @@ so forth. This type of consumers might have minor purchase power, but
 they could be potential future consumers of the brand, with more
 permanent brand loyalty. Hence, it was also important for NutrientH20 to
 attract those type of consumers as many as possible.
+
+# Problem 3: Groceries
+
+    ## [1] 4 3 1 4 4 5
+
+    ## [1] 4.409456
+
+Because the average number of items purchased is approximately 4, it
+seems appropriate to set `maxlen` equals to 4. I also set `support`
+which is marginal probability to be 1% and `confidence` equals to 50%.
+It is worth reminding that the higher value of `confidence` parameter,
+the stronger the rules. Also, low support does not preclude high
+confidence or high lift. Once you know that something is purchased
+(although rarely purchased), you know with high probability that another
+item is likely to be bought too.
+
+    ## Apriori
+    ## 
+    ## Parameter specification:
+    ##  confidence minval smax arem  aval originalSupport maxtime support minlen
+    ##         0.5    0.1    1 none FALSE            TRUE       5    0.01      1
+    ##  maxlen target  ext
+    ##       4  rules TRUE
+    ## 
+    ## Algorithmic control:
+    ##  filter tree heap memopt load sort verbose
+    ##     0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+    ## 
+    ## Absolute minimum support count: 98 
+    ## 
+    ## set item appearances ...[0 item(s)] done [0.00s].
+    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.00s].
+    ## sorting and recoding items ... [88 item(s)] done [0.00s].
+    ## creating transaction tree ... done [0.00s].
+    ## checking subsets of size 1 2 3 4 done [0.00s].
+    ## writing ... [15 rule(s)] done [0.00s].
+    ## creating S4 object  ... done [0.00s].
+
+    ##      lhs                                       rhs                support   
+    ## [1]  {curd, yogurt}                         => {whole milk}       0.01006609
+    ## [2]  {butter, other vegetables}             => {whole milk}       0.01148958
+    ## [3]  {domestic eggs, other vegetables}      => {whole milk}       0.01230300
+    ## [4]  {whipped/sour cream, yogurt}           => {whole milk}       0.01087951
+    ## [5]  {other vegetables, whipped/sour cream} => {whole milk}       0.01464159
+    ## [6]  {other vegetables, pip fruit}          => {whole milk}       0.01352313
+    ## [7]  {citrus fruit, root vegetables}        => {other vegetables} 0.01037112
+    ## [8]  {root vegetables, tropical fruit}      => {other vegetables} 0.01230300
+    ## [9]  {root vegetables, tropical fruit}      => {whole milk}       0.01199797
+    ## [10] {tropical fruit, yogurt}               => {whole milk}       0.01514997
+    ## [11] {root vegetables, yogurt}              => {other vegetables} 0.01291307
+    ## [12] {root vegetables, yogurt}              => {whole milk}       0.01453991
+    ## [13] {rolls/buns, root vegetables}          => {other vegetables} 0.01220132
+    ## [14] {rolls/buns, root vegetables}          => {whole milk}       0.01270971
+    ## [15] {other vegetables, yogurt}             => {whole milk}       0.02226741
+    ##      confidence coverage   lift     count
+    ## [1]  0.5823529  0.01728521 2.279125  99  
+    ## [2]  0.5736041  0.02003050 2.244885 113  
+    ## [3]  0.5525114  0.02226741 2.162336 121  
+    ## [4]  0.5245098  0.02074225 2.052747 107  
+    ## [5]  0.5070423  0.02887646 1.984385 144  
+    ## [6]  0.5175097  0.02613116 2.025351 133  
+    ## [7]  0.5862069  0.01769192 3.029608 102  
+    ## [8]  0.5845411  0.02104728 3.020999 121  
+    ## [9]  0.5700483  0.02104728 2.230969 118  
+    ## [10] 0.5173611  0.02928317 2.024770 149  
+    ## [11] 0.5000000  0.02582613 2.584078 127  
+    ## [12] 0.5629921  0.02582613 2.203354 143  
+    ## [13] 0.5020921  0.02430097 2.594890 120  
+    ## [14] 0.5230126  0.02430097 2.046888 125  
+    ## [15] 0.5128806  0.04341637 2.007235 219
+
+    ##      lhs                                  rhs                support   
+    ## [1]  {curd, yogurt}                    => {whole milk}       0.01006609
+    ## [2]  {butter, other vegetables}        => {whole milk}       0.01148958
+    ## [3]  {domestic eggs, other vegetables} => {whole milk}       0.01230300
+    ## [4]  {whipped/sour cream, yogurt}      => {whole milk}       0.01087951
+    ## [5]  {other vegetables, pip fruit}     => {whole milk}       0.01352313
+    ## [6]  {citrus fruit, root vegetables}   => {other vegetables} 0.01037112
+    ## [7]  {root vegetables, tropical fruit} => {other vegetables} 0.01230300
+    ## [8]  {root vegetables, tropical fruit} => {whole milk}       0.01199797
+    ## [9]  {tropical fruit, yogurt}          => {whole milk}       0.01514997
+    ## [10] {root vegetables, yogurt}         => {other vegetables} 0.01291307
+    ## [11] {root vegetables, yogurt}         => {whole milk}       0.01453991
+    ## [12] {rolls/buns, root vegetables}     => {other vegetables} 0.01220132
+    ## [13] {rolls/buns, root vegetables}     => {whole milk}       0.01270971
+    ## [14] {other vegetables, yogurt}        => {whole milk}       0.02226741
+    ##      confidence coverage   lift     count
+    ## [1]  0.5823529  0.01728521 2.279125  99  
+    ## [2]  0.5736041  0.02003050 2.244885 113  
+    ## [3]  0.5525114  0.02226741 2.162336 121  
+    ## [4]  0.5245098  0.02074225 2.052747 107  
+    ## [5]  0.5175097  0.02613116 2.025351 133  
+    ## [6]  0.5862069  0.01769192 3.029608 102  
+    ## [7]  0.5845411  0.02104728 3.020999 121  
+    ## [8]  0.5700483  0.02104728 2.230969 118  
+    ## [9]  0.5173611  0.02928317 2.024770 149  
+    ## [10] 0.5000000  0.02582613 2.584078 127  
+    ## [11] 0.5629921  0.02582613 2.203354 143  
+    ## [12] 0.5020921  0.02430097 2.594890 120  
+    ## [13] 0.5230126  0.02430097 2.046888 125  
+    ## [14] 0.5128806  0.04341637 2.007235 219
+
+## How to get the product recommenddation rules?
+
+### High-confidence rules
+
+Event with high confidence means the probability of RHS(consequent)
+given LHS(antecedent) is high. The rule with confidence of 1 imply that
+when LHS item was purchased, the RHS item was also purchased 100% of the
+time.
+
+    ##     lhs                                  rhs                support   
+    ## [1] {citrus fruit, root vegetables}   => {other vegetables} 0.01037112
+    ## [2] {root vegetables, tropical fruit} => {other vegetables} 0.01230300
+    ## [3] {curd, yogurt}                    => {whole milk}       0.01006609
+    ## [4] {butter, other vegetables}        => {whole milk}       0.01148958
+    ## [5] {root vegetables, tropical fruit} => {whole milk}       0.01199797
+    ## [6] {root vegetables, yogurt}         => {whole milk}       0.01453991
+    ##     confidence coverage   lift     count
+    ## [1] 0.5862069  0.01769192 3.029608 102  
+    ## [2] 0.5845411  0.02104728 3.020999 121  
+    ## [3] 0.5823529  0.01728521 2.279125  99  
+    ## [4] 0.5736041  0.02003050 2.244885 113  
+    ## [5] 0.5700483  0.02104728 2.230969 118  
+    ## [6] 0.5629921  0.02582613 2.203354 143
+
+### High-lift rules
+
+Lift is calculated by taking confidence divided by support. Generally,
+association rules with high lift are most useful because they tell you
+something you don’t already know. Rules with high lift mean that items
+in LHS and RHS are more likely to be bought together compared to the
+purchases when they are assumed to be unrelated.
+
+    ##     lhs                                  rhs                support   
+    ## [1] {citrus fruit, root vegetables}   => {other vegetables} 0.01037112
+    ## [2] {root vegetables, tropical fruit} => {other vegetables} 0.01230300
+    ## [3] {rolls/buns, root vegetables}     => {other vegetables} 0.01220132
+    ## [4] {root vegetables, yogurt}         => {other vegetables} 0.01291307
+    ## [5] {curd, yogurt}                    => {whole milk}       0.01006609
+    ## [6] {butter, other vegetables}        => {whole milk}       0.01148958
+    ##     confidence coverage   lift     count
+    ## [1] 0.5862069  0.01769192 3.029608 102  
+    ## [2] 0.5845411  0.02104728 3.020999 121  
+    ## [3] 0.5020921  0.02430097 2.594890 120  
+    ## [4] 0.5000000  0.02582613 2.584078 127  
+    ## [5] 0.5823529  0.01728521 2.279125  99  
+    ## [6] 0.5736041  0.02003050 2.244885 113
+
+## Most frequenly purchased items
+
+We see that whole milk is the most commonly purchased item followed by
+vegetables and buns. This makes sense because they are all basic foods.
+
+    ## Eclat
+    ## 
+    ## parameter specification:
+    ##  tidLists support minlen maxlen            target  ext
+    ##     FALSE    0.07      1     15 frequent itemsets TRUE
+    ## 
+    ## algorithmic control:
+    ##  sparse sort verbose
+    ##       7   -2    TRUE
+    ## 
+    ## Absolute minimum support count: 688 
+    ## 
+    ## create itemset ... 
+    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.01s].
+    ## sorting and recoding items ... [18 item(s)] done [0.00s].
+    ## creating sparse bit matrix ... [18 row(s), 9835 column(s)] done [0.00s].
+    ## writing  ... [19 set(s)] done [0.00s].
+    ## Creating S4 object  ... done [0.00s].
+
+    ##      items                          support    count
+    ## [1]  {other vegetables, whole milk} 0.07483477  736 
+    ## [2]  {whole milk}                   0.25551601 2513 
+    ## [3]  {other vegetables}             0.19349263 1903 
+    ## [4]  {rolls/buns}                   0.18393493 1809 
+    ## [5]  {yogurt}                       0.13950178 1372 
+    ## [6]  {soda}                         0.17437722 1715 
+    ## [7]  {root vegetables}              0.10899847 1072 
+    ## [8]  {tropical fruit}               0.10493137 1032 
+    ## [9]  {bottled water}                0.11052364 1087 
+    ## [10] {sausage}                      0.09395018  924 
+    ## [11] {shopping bags}                0.09852567  969 
+    ## [12] {citrus fruit}                 0.08276563  814 
+    ## [13] {pastry}                       0.08896797  875 
+    ## [14] {pip fruit}                    0.07564820  744 
+    ## [15] {whipped/sour cream}           0.07168277  705 
+    ## [16] {fruit/vegetable juice}        0.07229283  711 
+    ## [17] {newspapers}                   0.07981698  785 
+    ## [18] {bottled beer}                 0.08052872  792 
+    ## [19] {canned beer}                  0.07768175  764
+
+![](HW4_files/figure-markdown_github/setup%202.14-1.png)
+
+## Customers who bought ‘Whole Milk’ also bought
+
+Let’s find out what customers had purchased before buying ‘Whole Milk’.
+This will help us understand the patterns that led to the purchase of
+‘whole milk’.
+
+    ##     lhs             rhs                support    confidence coverage lift     
+    ## [1] {whole milk} => {other vegetables} 0.07483477 0.2928770  0.255516 1.5136341
+    ## [2] {whole milk} => {rolls/buns}       0.05663447 0.2216474  0.255516 1.2050318
+    ## [3] {whole milk} => {yogurt}           0.05602440 0.2192598  0.255516 1.5717351
+    ## [4] {whole milk} => {root vegetables}  0.04890696 0.1914047  0.255516 1.7560310
+    ## [5] {whole milk} => {tropical fruit}   0.04229792 0.1655392  0.255516 1.5775950
+    ## [6] {whole milk} => {soda}             0.04006101 0.1567847  0.255516 0.8991124
+    ##     count
+    ## [1] 736  
+    ## [2] 557  
+    ## [3] 551  
+    ## [4] 481  
+    ## [5] 416  
+    ## [6] 394
+
+In the following graph, we observe negative relationship between support
+and lift. When you have high support, it means that the items is
+commonly purchased. It’s like almost everyone buys it. So it is not very
+helpful or telling you much information.
+
+![](HW4_files/figure-markdown_github/setup%202.17-1.png)![](HW4_files/figure-markdown_github/setup%202.17-2.png)
+
+In the graph below, we see that the highest confidence tends to be order
+3 (order 3 has more items). The more items you condition on, the more
+sure.
+
+![](HW4_files/figure-markdown_github/setup%202.18-1.png)
+
+    ##      lhs                                       rhs                support   
+    ## [1]  {curd, yogurt}                         => {whole milk}       0.01006609
+    ## [2]  {butter, other vegetables}             => {whole milk}       0.01148958
+    ## [3]  {domestic eggs, other vegetables}      => {whole milk}       0.01230300
+    ## [4]  {whipped/sour cream, yogurt}           => {whole milk}       0.01087951
+    ## [5]  {other vegetables, whipped/sour cream} => {whole milk}       0.01464159
+    ## [6]  {other vegetables, pip fruit}          => {whole milk}       0.01352313
+    ## [7]  {citrus fruit, root vegetables}        => {other vegetables} 0.01037112
+    ## [8]  {root vegetables, tropical fruit}      => {other vegetables} 0.01230300
+    ## [9]  {root vegetables, tropical fruit}      => {whole milk}       0.01199797
+    ## [10] {tropical fruit, yogurt}               => {whole milk}       0.01514997
+    ## [11] {root vegetables, yogurt}              => {other vegetables} 0.01291307
+    ## [12] {root vegetables, yogurt}              => {whole milk}       0.01453991
+    ## [13] {rolls/buns, root vegetables}          => {other vegetables} 0.01220132
+    ## [14] {rolls/buns, root vegetables}          => {whole milk}       0.01270971
+    ## [15] {other vegetables, yogurt}             => {whole milk}       0.02226741
+    ##      confidence coverage   lift     count
+    ## [1]  0.5823529  0.01728521 2.279125  99  
+    ## [2]  0.5736041  0.02003050 2.244885 113  
+    ## [3]  0.5525114  0.02226741 2.162336 121  
+    ## [4]  0.5245098  0.02074225 2.052747 107  
+    ## [5]  0.5070423  0.02887646 1.984385 144  
+    ## [6]  0.5175097  0.02613116 2.025351 133  
+    ## [7]  0.5862069  0.01769192 3.029608 102  
+    ## [8]  0.5845411  0.02104728 3.020999 121  
+    ## [9]  0.5700483  0.02104728 2.230969 118  
+    ## [10] 0.5173611  0.02928317 2.024770 149  
+    ## [11] 0.5000000  0.02582613 2.584078 127  
+    ## [12] 0.5629921  0.02582613 2.203354 143  
+    ## [13] 0.5020921  0.02430097 2.594890 120  
+    ## [14] 0.5230126  0.02430097 2.046888 125  
+    ## [15] 0.5128806  0.04341637 2.007235 219
+
+# Graph-Based Visualization: Top 30 rules by lift
+
+![](HW4_files/figure-markdown_github/setup%202.20-1.png)

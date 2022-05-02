@@ -9,7 +9,7 @@ always_allow_html: yes
 ---
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
-load.libraries <- c('tidyverse', 'mosaic', 'MASS', 'FNN', 'gamlr', 'glmnet', 'randomForest', 'kableExtra', 'data.table', 'sjmisc', 'sjPlot', 'sjlabelled', 'LICORS', 'foreach', 'cluster', 'factoextra', 'knitr', 'GGally', 'scales', 'lubridate', 'gridExtra', 'grid', 'lattice')
+load.libraries <- c('tidyverse', 'mosaic', 'MASS', 'FNN', 'gamlr', 'glmnet', 'randomForest', 'kableExtra', 'data.table', 'sjmisc', 'sjPlot', 'sjlabelled', 'LICORS', 'foreach', 'cluster', 'factoextra', 'knitr', 'GGally', 'scales', 'lubridate', 'gridExtra', 'grid', 'lattice',  'arules', 'arulesViz', 'igraph')
 install.lib <- load.libraries[!load.libraries %in% installed.packages()]
 for(libs in install.lib) install.packages(libs, dependences = TRUE)
 sapply(load.libraries, require, character = TRUE)
@@ -581,13 +581,6 @@ milk_conf <- sort(milk, by = "confidence", decreasing=TRUE)
 arules::inspect(head(milk_conf))
 ```
 
-The following table shows all the association rules with lift > 3.
-
-```{r setup 2.16, warning=FALSE, echo=FALSE}
-# rules with lift > 3
-arules::inspect(subset(groceries_rules, lift > 3)) %>% as_tibble()
-```
-
 In the following graph, we observe negative relationship between support and lift. When you have high support, it means that the items is commonly purchased. It's like almost everyone buys it. So it is not very helpful or telling you much information.
 
 ```{r setup 2.17, warning=FALSE, echo=FALSE}
@@ -607,10 +600,16 @@ plot(groceries_rules, method='two-key plot')
 
 ```{r setup 2.19, warning=FALSE, echo=FALSE}
 # can now look at subsets driven by the plot
-arules::inspect(subset(musicrules, support > 0.04))
-arules::inspect(subset(musicrules, confidence > 0.4))
+arules::inspect(subset(groceries_rules, support > 0.04))
+arules::inspect(subset(groceries_rules, confidence > 0.4))
 
 # export a graph
 sub1 = subset(groceries_rules, subset=confidence > 0.01 & support > 0.005)
 saveAsGraph(sub1, file = "groceries_rules.graphml")
+```
+
+# Graph-Based Visualization: Top 30 rules by lift
+
+```{r setup 2.20, warning=FALSE, echo=FALSE}
+plot(head(sub1, 30, by='lift'), method='graph')
 ```
